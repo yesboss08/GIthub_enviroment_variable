@@ -12,3 +12,6 @@ jobs:
       - run: echo ${{ github.token == secrets.GITHUB_TOKEN }}
 
       - run: echo "$USER"
+
+      - run: echo ${{secrets.name}}
+      - run: echo ${{vars.name}}
