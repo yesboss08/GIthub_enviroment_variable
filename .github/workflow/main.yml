@@ -4,9 +4,12 @@ on: push
 jobs:
  my-frist-job:
     runs-on: ubuntu-latest
+    env:
+     USER: "boss is back"
     steps:
       - run: echo ${{github.token}}
       - run: echo ${{secrets.GITHUB_TOKEN}}
       - run: echo ${{github.token == secrets.GITHUB_TOKEN}}
+      - run: echo "$USER"
 
 
