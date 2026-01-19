@@ -2,16 +2,19 @@ name: My First Workflow
 on: push
 
 jobs:
-  my-frist-job:
+  my-prod-job:
     runs-on: ubuntu-latest
+    environment: "PROD"
     env:
       USER: "boss is back"
     steps:
-      - run: echo ${{ github.token }}
-      - run: echo ${{ secrets.GITHUB_TOKEN }}
-      - run: echo ${{ github.token == secrets.GITHUB_TOKEN }}
+      - run: echo ${{secrets.usersecrete}}
+      - run: echo ${{vars.username}};
 
-      - run: echo "$USER"
 
-      - run: echo ${{secrets.name}}
-      - run: echo ${{vars.name}}
+  my-test-job:
+    runs-on: ubuntu-latest
+    environment: 'TEST'
+    steps:
+      - run: echo ${{secrets.usersecrete}}
+      - run: echo ${{vars.username}}; 
