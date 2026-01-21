@@ -20,6 +20,9 @@ jobs:
   my-test-job:
     runs-on: ubuntu-latest
     environment: 'TEST'
+    env:
+      VITE_SERVER_URL : "https://api.mostorage.cloud"
+      
     steps:
       - run: echo ${{secrets.usersecrete}}
       - uses:  actions/checkout@v4
@@ -36,4 +39,7 @@ jobs:
       
 
       - name: "Upload files to S3"
-        run: aws s3 ls
+        run: aws s3 sync ./dist s3://sanat08-frontend-deployment --delete
+
+      - name: "adding invalidation"
+        run : aws cloudfront create-invalidation --distribution-id E2YZHDHRG7WTPW --paths "/index.html"
