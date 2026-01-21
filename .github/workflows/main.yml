@@ -17,9 +17,9 @@ jobs:
     environment: 'TEST'
     steps:
       - run: echo ${{secrets.usersecrete}}
-      - run: git pull
-      - run: ls -a 
-      - run: touch app.js
+      - run: actions/checkout@v4
+
+      - run: node app.js
       - run: ls -a 
 
 
