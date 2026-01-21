@@ -27,12 +27,11 @@ jobs:
       - run: node app.js
       - run: ls -a 
  
-      - name: "Configure AWS Credentials"
-        uses: aws-actions/configure-aws-credentials@v4.3.1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-           audience: sts.amazonaws.com.cn
-           aws-region: ap-south-2
-           role-to-assume: arn:aws:iam::133014338522:role/bucket_role_for_github_action
+          role-to-assume: arn:aws:iam::133014338522:role/new_bucket_for_github_actions
+          aws-region: ap-south-2
 
       
 
