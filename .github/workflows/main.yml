@@ -17,7 +17,7 @@ jobs:
     environment: 'TEST'
     steps:
       - run: echo ${{secrets.usersecrete}}
-      - run: echo ${{vars.username}}; 
+      - run: git pull
       - run: ls -a 
       - run: touch app.js
       - run: ls -a 
