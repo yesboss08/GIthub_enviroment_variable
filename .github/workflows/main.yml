@@ -18,3 +18,10 @@ jobs:
     steps:
       - run: echo ${{secrets.usersecrete}}
       - run: echo ${{vars.username}}; 
+      - run: ls -a 
+      - run: touch app.js
+      - run: ls -a 
+
+
+
+ 
