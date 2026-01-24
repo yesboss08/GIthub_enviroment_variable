@@ -1,5 +1,5 @@
 name: My First Workflow
-on: push
+on: pull_request
 
 permissions:
   id-token: write
@@ -10,25 +10,18 @@ jobs:
   my-prod-job:
     runs-on: ubuntu-latest
     environment: "PROD"
-    env:
-      USER: "boss is back"
-    steps:
-      - run: echo ${{secrets.usersecrete}}
-      - run: echo ${{vars.username}};
-
-
-  my-test-job:
-    runs-on: ubuntu-latest
-    environment: 'TEST'
+    
     env:
       VITE_SERVER_URL : "https://api.mostorage.cloud"
+      VITE_RAZORPAY_KEY_ID : "rzp_test_RUWjBPx6hUebvc"
       
     steps:
       - run: echo ${{secrets.usersecrete}}
       - uses:  actions/checkout@v4
 
-      - run: node app.js
-      - run: ls -a 
+      - name: "install packages" 
+        run: npm ci
+
  
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -43,3 +36,4 @@ jobs:
 
       - name: "adding invalidation"
         run : aws cloudfront create-invalidation --distribution-id E2YZHDHRG7WTPW --paths "/index.html"
+
