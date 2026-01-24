@@ -18,6 +18,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           echo ${{secrets.EC2_SSH_KEY}} > ~/.ssh/privatekey
+          ls ~/.ssh
           chmod 600 ~/.ssh/privatekey
           ssh-keyscan -H ${{env.user_host}} >> ~/.ssh/known_hosts
 
