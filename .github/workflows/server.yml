@@ -8,12 +8,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: "PROD"
+    env:
+      user_host: "18.61.85.155"
+      user_name: "ubuntu"
+
+
     steps:
-      - name: Run command with step env
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET }}
-          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
-        run: aws s3 ls
+      - name: setup ssh
+        run: |
+          mkdir -p ~/.ssh
+          echo ${{secrets.EC2_SSH_KEY}} > ~/.ssh/privatekey
+          chmod 600 ~/.ssh/privatekey
+          ssh-keyscan -H ${{env.user_host}} >> ~/.ssh/known_hosts
+
+      - name: deploy in remote ec2
+        
+        run: |
+         ssh ${{env.user_name}}@${{env.user_host}} 'bash -s' << 'EOF'
+         set -e
+         cd "/home/ubuntu/StoreX_Server_Backup"
+         git pull
+         npm ci
+         pm2 restart storageApp
+         EOF
       
       
