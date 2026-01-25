@@ -15,22 +15,30 @@ jobs:
 
     steps:
       - name: setup ssh
-        run: |
-          mkdir -p ~/.ssh
-          echo ${{secrets.EC2_SSH_KEY}} > ~/.ssh/privatekey
-          ls ~/.ssh
-          chmod 600 ~/.ssh/privatekey
-          ssh-keyscan -H ${{env.user_host}} >> ~/.ssh/known_hosts
+        run:  mkdir -p ~/.ssh
+          
+      - run : echo ${{secrets.EC2_SSH_KEY}} > ~/.ssh/privatekey
+      - run :   ls ~/.ssh
+      - run :   chmod 600 ~/.ssh/privatekey
+          
+      
+      # - name: setup ssh
+      #   run: |
+      #     mkdir -p ~/.ssh
+      #     echo ${{secrets.EC2_SSH_KEY}} > ~/.ssh/privatekey
+      #     ls ~/.ssh
+      #     chmod 600 ~/.ssh/privatekey
+      #     ssh-keyscan -H ${{env.user_host}} >> ~/.ssh/known_hosts
 
-      - name: deploy in remote ec2
+      # - name: deploy in remote ec2
         
-        run: |
-         ssh ${{env.user_name}}@${{env.user_host}} 'bash -s' << 'EOF'
-         set -e
-         cd "/home/ubuntu/StoreX_Server_Backup"
-         git pull
-         npm ci
-         pm2 restart storageApp
-         EOF
+      #   run: |
+      #    ssh ${{env.user_name}}@${{env.user_host}} 'bash -s' << 'EOF'
+      #    set -e
+      #    cd "/home/ubuntu/StoreX_Server_Backup"
+      #    git pull
+      #    npm ci
+      #    pm2 restart storageApp
+      #    EOF
       
       
