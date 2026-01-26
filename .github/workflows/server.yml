@@ -8,18 +8,21 @@ jobs:
   build:
     runs-on: ubuntu-latest
     environment: "PROD"
-    env:
-      user_host: "18.61.85.155"
-      user_name: "ubuntu"
+    # env:
+    #   user_host: "18.61.85.155"
+    #   user_name: "ubuntu"
 
 
     steps:
       - name: setup ssh
         run:  mkdir -p ~/.ssh
           
-      - run : echo ${{secrets.EC2_SSH_KEY}} > ~/.ssh/privatekey
-      - run :   ls ~/.ssh
-      - run :   chmod 600 ~/.ssh/privatekey
+      - name: copy the ssh private key
+        run : echo ${{secrets.EC2_SSH_KEY}} > ~/.ssh/privatekey
+      - name: show the children files
+        run :   ls ~/.ssh
+      - name: change the permission
+        run :   chmod 600 ~/.ssh/privatekey
           
       
       # - name: setup ssh
