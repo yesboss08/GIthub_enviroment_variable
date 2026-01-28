@@ -14,11 +14,11 @@ jobs:
   my-prod-job:
     runs-on: ubuntu-latest
     environment: "PROD"
-    
+    if : github.ref == 'refs/heads/main'
     env:
       VITE_SERVER_URL : "https://api.mostorage.cloud"
       VITE_RAZORPAY_KEY_ID : "rzp_test_RUWjBPx6hUebvc"
-      
+    
     steps:
       - run: echo ${{secrets.usersecrete}}
       - uses:  actions/checkout@v4
@@ -27,6 +27,32 @@ jobs:
         run: npm ci
 
  
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::133014338522:role/new_bucket_for_github_actions
+          aws-region: ap-south-2
+
+      - name: "Upload files to S3"
+        run: aws s3 sync ./dist s3://sanat08-frontend-deployment --delete
+
+      - name: "adding invalidation"
+        run : aws cloudfront create-invalidation --distribution-id E2YZHDHRG7WTPW --paths "/index.html"
+  test-job:
+    runs-on: ubuntu-latest
+    environment: "TEST"
+    if : github.ref == 'refs/heads/test'
+    env:
+      VITE_SERVER_URL : "https://api.mostorage.cloud"
+      VITE_RAZORPAY_KEY_ID : "rzp_test_RUWjBPx6hUebvc"
+    
+    steps:
+      - run: echo "This is test brach workflow"
+
+      - run: git clone https://github.com/yesboss08/StoreX_Client_Backup.git
+
+      - name: installing the packages
+        run: npm ci
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
