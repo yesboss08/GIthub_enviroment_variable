@@ -1,7 +1,7 @@
 name: "Store-X-Server"
 on:
   push:
-    branches: [ main ]
+    branches: [ test ]
 
 
 jobs:
