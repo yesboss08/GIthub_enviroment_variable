@@ -12,7 +12,7 @@ jobs:
       user_host: "18.61.85.155"
       user_name: "ubuntu"
 
-
+      if : github.ref == "refs/head/main"
     steps:
       - name: setup ssh
         run: |
@@ -38,15 +38,17 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    environment : "PROD"
+    environment : "TEST"
     env:
       user_host: "18.61.85.155"
       user_name: "ubuntu"
-
+     
+      if : github.ref == "refs/head/test"
+    
     steps:
       - name: Action SSH
         id: action-ssh
-        uses: tiyee/action-ssh@release
+        uses: tiyee/action-ssh@v1.0.1
         with:
           host: ${{ env.user_host }} 
           port: 22
